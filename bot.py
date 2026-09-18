@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 async def api_get(path: str, params: dict | None = None) -> dict:
     if not API_KEY:
-        raise RuntimeError("API_FOOTBALL_KEY is not configured")
+        raise RuntimeError("Football data API is not configured yet")
 
     headers = {"x-apisports-key": API_KEY}
     async with httpx.AsyncClient(timeout=20) as client:
@@ -65,6 +65,12 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 
 async def live(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not API_KEY:
+        await update.message.reply_text(
+            "⚽ The bot is online, but live scores have not been connected yet."
+        )
+        return
+
     try:
         data = await api_get("/fixtures", {"live": "all"})
         fixtures = data.get("response", [])
@@ -81,6 +87,12 @@ async def live(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def today(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not API_KEY:
+        await update.message.reply_text(
+            "⚽ The bot is online, but football fixtures have not been connected yet."
+        )
+        return
+
     date = datetime.now(timezone.utc).date().isoformat()
 
     try:
@@ -101,8 +113,6 @@ async def today(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 def main() -> None:
     if not TOKEN:
         raise RuntimeError("TELEGRAM_SCOREBOT_TOKEN environment variable is required")
-    if not API_KEY:
-        raise RuntimeError("API_FOOTBALL_KEY environment variable is required")
 
     app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
