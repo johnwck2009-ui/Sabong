@@ -67,7 +67,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 async def live(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not API_KEY:
         await update.message.reply_text(
-            "⚽ បុតនេះកំពុងដំណើរការ ប៉ុន្តែទិន្នន័យលទ្ធផលបន្តផ្ទាល់មិនទាន់បានភ្ជាប់នៅឡើយទេ។"
+            "⚽ បូតនេះកំពុងដំណើរការ ប៉ុន្តែទិន្នន័យលទ្ធផលបន្តផ្ទាល់មិនទាន់បានភ្ជាប់នៅឡើយទេ។"
         )
         return
 
@@ -89,7 +89,7 @@ async def live(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def today(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not API_KEY:
         await update.message.reply_text(
-            "⚽ បុតនេះកំពុងដំណើរការ ប៉ុន្តែកាលវិភាគការប្រកួតបាល់ទាត់មិនទាន់បានភ្ជាប់នៅឡើយទេ។"
+            "⚽ បូតនេះកំពុងដំណើរការ ប៉ុន្តែកាលវិភាគការប្រកួតបាល់ទាត់មិនទាន់បានភ្ជាប់នៅឡើយទេ។"
         )
         return
 
