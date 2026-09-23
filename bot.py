@@ -50,24 +50,24 @@ def format_fixture(fixture: dict) -> str:
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
-        "⚽ Welcome to SABONG24 Football Scores!\n\n"
-        "Use /live for live matches or /today for today's fixtures and results."
+        "⚽ សូមស្វាគមន៍មកកាន់ SABONG24 Football Scores!\n\n"
+        "ប្រើ /live ដើម្បីមើលការប្រកួតបាល់ទាត់កំពុងប្រកួត ឬ /today ដើម្បីមើលកាលវិភាគ និងលទ្ធផលប្រកួតថ្ងៃនេះ។"
     )
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
-        "⚽ Football Scores\n\n"
-        "/live — live football matches\n"
-        "/today — today's fixtures and results\n"
-        "/help — show this help"
+        "⚽ លទ្ធផលបាល់ទាត់\n\n"
+        "/live — មើលការប្រកួតបាល់ទាត់កំពុងប្រកួត\n"
+        "/today — មើលកាលវិភាគ និងលទ្ធផលប្រកួតថ្ងៃនេះ\n"
+        "/help — បង្ហាញជំនួយ"
     )
 
 
 async def live(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not API_KEY:
         await update.message.reply_text(
-            "⚽ The bot is online, but live scores have not been connected yet."
+            "⚽ បុតនេះកំពុងដំណើរការ ប៉ុន្តែទិន្នន័យលទ្ធផលបន្តផ្ទាល់មិនទាន់បានភ្ជាប់នៅឡើយទេ។"
         )
         return
 
@@ -76,20 +76,20 @@ async def live(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         fixtures = data.get("response", [])
 
         if not fixtures:
-            await update.message.reply_text("⚽ No live football matches right now.")
+            await update.message.reply_text("⚽ ឥឡូវនេះមិនមានការប្រកួតបាល់ទាត់កំពុងប្រកួតទេ។")
             return
 
         lines = [format_fixture(item) for item in fixtures[:20]]
         await update.message.reply_text("\n\n".join(lines))
     except Exception:
         logger.exception("Failed to fetch live fixtures")
-        await update.message.reply_text("⚠️ Live scores are temporarily unavailable. Please try again.")
+        await update.message.reply_text("⚠️ ទិន្នន័យលទ្ធផលបន្តផ្ទាល់មិនអាចប្រើបានជាបណ្តោះអាសន្នទេ។ សូមព្យាយាមម្តងទៀត។")
 
 
 async def today(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not API_KEY:
         await update.message.reply_text(
-            "⚽ The bot is online, but football fixtures have not been connected yet."
+            "⚽ បុតនេះកំពុងដំណើរការ ប៉ុន្តែកាលវិភាគការប្រកួតបាល់ទាត់មិនទាន់បានភ្ជាប់នៅឡើយទេ។"
         )
         return
 
@@ -100,14 +100,14 @@ async def today(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         fixtures = data.get("response", [])
 
         if not fixtures:
-            await update.message.reply_text("⚽ No football fixtures/results found for today.")
+            await update.message.reply_text("⚽ រកមិនឃើញកាលវិភាគ ឬលទ្ធផលការប្រកួតបាល់ទាត់សម្រាប់ថ្ងៃនេះទេ។")
             return
 
         lines = [format_fixture(item) for item in fixtures[:30]]
         await update.message.reply_text("\n\n".join(lines))
     except Exception:
         logger.exception("Failed to fetch today's fixtures")
-        await update.message.reply_text("⚠️ Today's fixtures are temporarily unavailable. Please try again.")
+        await update.message.reply_text("⚠️ កាលវិភាគការប្រកួតថ្ងៃនេះមិនអាចប្រើបានជាបណ្តោះអាសន្នទេ។ សូមព្យាយាមម្តងទៀត។")
 
 
 def main() -> None:
